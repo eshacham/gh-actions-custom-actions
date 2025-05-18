@@ -65,10 +65,17 @@ jobs:
           path: ./dist
       - name: Output contents
         run: ls
+      # this is the best practice!
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     role-to-assume: arn:aws:iam::123456789012:role/your-github-actions-role
+      #     aws-region: us-east-2
       - name: Deploy site
         id: deploy
         uses: ./.github/actions/deploy-s3-docker
         env:
+          # this is not the best practice!
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
